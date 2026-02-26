@@ -1,0 +1,6 @@
+@CriptoBank.API_HostAddress = http://localhost:5044
+
+GET {{CriptoBank.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

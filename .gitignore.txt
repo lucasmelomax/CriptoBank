@@ -1,0 +1,78 @@
+# ==================================
+# DotNet / C# / Visual Studio
+# ==================================
+
+# Build Folders
+bin/
+obj/
+out/
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.vs/
+*.vscode/
+
+# ==================================
+# DotNet Core / ASP.NET Core
+# ==================================
+
+# Logs
+*.log
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Secret files
+secrets.json            # User Secrets
+appsettings.Development.json  # Configurações de desenvolvimento local (com senha)
+*.publishsettings
+
+# ==================================
+# Entity Framework
+# ==================================
+# Migrations podem ir pro Git se quiser versionar
+# Mas arquivos temporários do EF não
+**/Migrations/**/Designer.cs
+**/Migrations/**/ModelSnapshot.cs
+
+# ==================================
+# Node / npm (se tiver frontend)
+# ==================================
+node_modules/
+
+# ==================================
+# Packages
+# ==================================
+*.nupkg
+*.snupkg
+*.nuspec
+.packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+.vs/
+
+# ==================================
+# VS Code
+# ==================================
+.vscode/
+
+# ==================================
+# Mac / Linux
+# ==================================
+*.DS_Store
+*.swp
+
+# ==================================
+# JetBrains
+# ==================================
+.idea/
+*.iml
