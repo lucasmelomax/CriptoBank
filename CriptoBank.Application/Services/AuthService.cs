@@ -3,20 +3,24 @@ using CriptoBank.Application.DTOs.UserToken;
 using CriptoBank.Application.Interfaces.Token;
 using CriptoBank.Application.Repositories.Token;
 using CriptoBank.Domain.Models;
+using CriptoBank.Domain.Repositories;
 
 namespace CriptoBank.Application.Repositories;
 public class AuthService : IAuthService
 {
     private readonly IUserTokenRepositories _userRepository;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IPortfolioRepository _portfolioRepository;
     private readonly ITokenService _tokenService;
 
     public AuthService(
         IUserTokenRepositories userRepository,
+        IPortfolioRepository portfolioRepository,
         IPasswordHasher passwordHasher,
         ITokenService tokenService)
     {
         _userRepository = userRepository;
+        _portfolioRepository = portfolioRepository;
         _passwordHasher = passwordHasher;
         _tokenService = tokenService;
     }
@@ -36,6 +40,13 @@ public class AuthService : IAuthService
         var user = new User(request.Name, request.Email, hash);
 
         await _userRepository.AddAsync(user, ct);
+
+        var portfolio = new Portfolio(
+          user.Id,
+          "Carteira Principal"
+        );
+
+        await _portfolioRepository.AddAsync(portfolio);
 
         var token = _tokenService.GenerateToken(user);
 

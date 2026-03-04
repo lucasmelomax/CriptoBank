@@ -9,3 +9,4 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\Cripto
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\refint\CriptoBank.Domain.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.pdb
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\ref\CriptoBank.Domain.dll
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.sourcelink.json

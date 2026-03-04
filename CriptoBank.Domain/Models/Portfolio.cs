@@ -1,5 +1,7 @@
 ﻿
 
+using System.Transactions;
+
 namespace CriptoBank.Domain.Models
 {
     public class Portfolio
@@ -24,5 +26,6 @@ namespace CriptoBank.Domain.Models
             UserId = userId;
             Name = name;
         }
+
     }
 }

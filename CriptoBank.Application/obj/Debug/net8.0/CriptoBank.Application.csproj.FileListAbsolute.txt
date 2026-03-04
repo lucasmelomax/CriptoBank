@@ -13,3 +13,4 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Application\obj\Debug\net8.0\C
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Application\obj\Debug\net8.0\refint\CriptoBank.Application.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Application\obj\Debug\net8.0\CriptoBank.Application.pdb
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Application\obj\Debug\net8.0\ref\CriptoBank.Application.dll
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Application\obj\Debug\net8.0\CriptoBank.Application.sourcelink.json

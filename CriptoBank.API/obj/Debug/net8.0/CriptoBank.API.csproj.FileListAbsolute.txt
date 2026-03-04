@@ -130,3 +130,4 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\bin\Debug\net8.0\Microsoft
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\obj\Debug\net8.0\CriptoBank.API.sourcelink.json

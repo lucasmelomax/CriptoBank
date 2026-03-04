@@ -17,3 +17,4 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Infrastructure\obj\Debug\net8.
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Infrastructure\obj\Debug\net8.0\ref\CriptoBank.Infrastructure.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Infrastructure\bin\Debug\net8.0\CriptoBank.Infrastructure.runtimeconfig.json
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Infrastructure\obj\Debug\net8.0\CriptoBank.Infrastructure.genruntimeconfig.cache
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Infrastructure\obj\Debug\net8.0\CriptoBank.Infrastructure.sourcelink.json

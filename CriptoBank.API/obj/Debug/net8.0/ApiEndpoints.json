@@ -30,5 +30,77 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.CoinController",
+    "Method": "GetCoin",
+    "RelativePath": "api/Coin/{nome}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nome",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[CriptoBank.Application.DTOs.Crypto.CoinMarketDto, CriptoBank.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.CoinController",
+    "Method": "GetAllCoins",
+    "RelativePath": "api/Coin/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[CriptoBank.Application.DTOs.Crypto.CoinMarketDto, CriptoBank.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.CoinController",
+    "Method": "Sync",
+    "RelativePath": "api/Coin/sync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Buy",
+    "RelativePath": "api/Wallet/buy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CriptoBank.Application.Handlers.BuyCrypto.Commands.BuyCryptoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

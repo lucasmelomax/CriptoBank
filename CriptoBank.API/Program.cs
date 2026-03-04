@@ -1,7 +1,6 @@
 
 using CriptoBank.Application.Repositories.Token;
 using CriptoBank.Application.Repositories;
-using CriptoBank.Domain.Interfaces;
 using CriptoBank.Infrastructure.Context;
 using CriptoBank.Infrastructure.Repositories;
 using CriptoBank.Infrastructure.Services;
@@ -10,6 +9,12 @@ using CriptoBank.Application.Interfaces.Token;
 using CriptoBank.Application.AutoMapperProfile;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using CriptoBank.Application.Interfaces.UnitOfWork;
+using CriptoBank.Application.Interfaces.CoinService;
+using CriptoBank.Application.Services;
+using CriptoBank.API.Middlewares;
+using CriptoBank.Application.Interfaces.BuyService;
+using CriptoBank.Domain.Repositories;
 
 namespace CriptoBank.API
 {
@@ -32,7 +37,18 @@ namespace CriptoBank.API
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+            builder.Services.AddHttpClient<ICoinService, CoinService>();
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddScoped<IHoldingRepository, HoldingRepository>();
+            builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+            builder.Services.AddScoped<ICryptoTransactionService, CryptoTransactionService>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<ICryptoRepository, CryptoRepository>();
+
             builder.Services.AddAutoMapper(typeof(UserProfile));
+            var myhandlers = AppDomain.CurrentDomain.Load("CriptoBank.Application");
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
 
             builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -56,6 +72,7 @@ namespace CriptoBank.API
                     options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -64,7 +81,7 @@ namespace CriptoBank.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

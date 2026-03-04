@@ -1,5 +1,5 @@
-﻿
-using CriptoBank.Domain.Interfaces;
+﻿using CriptoBank.Application.Interfaces.UnitOfWork;
+
 using CriptoBank.Infrastructure.Context;
 
 namespace CriptoBank.Infrastructure.Repositories
@@ -7,11 +7,10 @@ namespace CriptoBank.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly CriptoDbContext _context;
-        //public IPortfolioRepository Portfolios { get; }
-        public UnitOfWork(CriptoDbContext context) //,IPortfolioRepository portfolios
+
+        public UnitOfWork(CriptoDbContext context)
         {
             _context = context;
-            //Portfolios = portfolios;
         }
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

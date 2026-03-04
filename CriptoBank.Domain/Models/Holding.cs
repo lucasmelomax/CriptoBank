@@ -27,11 +27,25 @@ namespace CriptoBank.Domain.Models
             AveragePrice = 0;
         }
 
-        public void UpdatePosition(decimal quantity, decimal unitPrice)
+        public void AddPurchase(decimal newQuantity, decimal newPrice)
         {
-            var totalCost = (Quantity * AveragePrice) + (quantity * unitPrice);
-            Quantity += quantity;
-            AveragePrice = Quantity == 0 ? 0 : totalCost / Quantity;
+            if (newQuantity <= 0) throw new ArgumentException("Quantidade deve ser positiva.");
+
+            decimal currentTotalCost = Quantity * AveragePrice;
+            decimal newPurchaseCost = newQuantity * newPrice;
+
+            decimal totalQuantity = Quantity + newQuantity;
+            decimal totalCost = currentTotalCost + newPurchaseCost;
+
+            AveragePrice = totalCost / totalQuantity;
+            Quantity = totalQuantity;
         }
+
+        public void RemoveBalance(decimal quantity)
+        {
+            if (quantity > Quantity) throw new ArgumentException("Saldo insuficiente.");
+            Quantity -= quantity;
+        }
+
     }
 }
