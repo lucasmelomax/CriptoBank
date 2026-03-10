@@ -22,6 +22,15 @@ namespace CriptoBank.Infrastructure.Repositories
             await _context.Holdings.AddAsync(holding);
         }
 
+        public async Task<IEnumerable<Holding>> GetAllHoldingsByPortfolio(Guid userId) 
+        {
+            return await _context.Holdings
+                    .Include(h => h.Crypto)
+                    .Include(h => h.Portfolio)
+                    .Where(h => h.Portfolio.UserId == userId) 
+                    .ToListAsync();
+        }
+
         public async Task<Holding> GetByCrypto(Guid portfolioId, Guid cryptoId)
         {
             var holding = await _context.Holdings

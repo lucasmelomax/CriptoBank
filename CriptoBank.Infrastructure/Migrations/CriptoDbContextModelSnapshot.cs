@@ -61,7 +61,7 @@ namespace CriptoBank.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("AveragePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<Guid>("CryptoId")
                         .HasColumnType("uuid");

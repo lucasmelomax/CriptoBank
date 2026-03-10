@@ -40,7 +40,13 @@ namespace CriptoBank.Application.Handlers.BuyCrypto.Commands
             if (crypto == null) throw new Exception("Criptomoeda não encontrada no sistema.");
 
 
-            var coinData = await _coinGecko.GetCoinDataAsync(crypto.ExternalId);
+            var coinDataList = await _coinGecko.GetCoinDataAsync(crypto.ExternalId);
+
+            var coinData = coinDataList.FirstOrDefault();
+
+            if (coinData == null)
+                throw new Exception("Não foi possível obter o preço atual da moeda.");
+
             var unitPrice = coinData.Current_Price;
 
 

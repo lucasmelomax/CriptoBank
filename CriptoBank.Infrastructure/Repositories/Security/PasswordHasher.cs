@@ -1,9 +1,8 @@
-﻿
-using CriptoBank.Application.Interfaces.Token;
+﻿using CriptoBank.Application.Interfaces.Token;
 
-namespace CriptoBank.Infrastructure.Services
+namespace CriptoBank.Infrastructure.Repositories.Security
 {
-    public class PasswordHasher :IPasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         public string Hash(string password)
             => BCrypt.Net.BCrypt.HashPassword(password);

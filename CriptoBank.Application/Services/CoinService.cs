@@ -40,13 +40,13 @@ public class CoinService : ICoinService
         }
     }
 
-    public async Task<CoinMarketDto?> GetCoinDataAsync(string externalId)
+    public async Task<List<CoinMarketDto?>> GetCoinDataAsync(string externalId)
     {
         var url = $"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={externalId}";
 
         var response = await _http.GetAsync(url);
 
-        if (!response.IsSuccessStatusCode) return null;
+        if (!response.IsSuccessStatusCode) return new List<CoinMarketDto>();
 
         var content = await response.Content.ReadAsStringAsync();
 
@@ -55,7 +55,7 @@ public class CoinService : ICoinService
             PropertyNameCaseInsensitive = true
         });
 
-        return coins?.FirstOrDefault();
+        return coins ?? new List<CoinMarketDto>(); 
     }
 
     public async Task SyncCryptosAsync()

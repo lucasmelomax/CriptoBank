@@ -7,5 +7,6 @@ namespace CriptoBank.Domain.Repositories
     {
         Task Add(Holding holding);
         Task<Holding> GetByCrypto(Guid portfolioId, Guid cryptoId);
+        Task<IEnumerable<Holding>> GetAllHoldingsByPortfolio(Guid userId);
     }
 }

@@ -24,6 +24,7 @@ namespace CriptoBank.Infrastructure.Repositories
         {
             return await _context.Transactions
                 .Where(t => t.PortfolioId == portfolioId)
+                .Include(t => t.Crypto)
                 .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync();
         }

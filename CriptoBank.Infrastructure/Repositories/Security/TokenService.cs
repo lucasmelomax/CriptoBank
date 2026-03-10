@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace CriptoBank.Infrastructure.Services;
+namespace CriptoBank.Infrastructure.Repositories.Security;
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;

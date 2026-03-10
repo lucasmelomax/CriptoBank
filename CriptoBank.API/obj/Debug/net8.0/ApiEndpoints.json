@@ -88,6 +88,36 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CriptoBank.API.Controllers.HoldingController",
+    "Method": "GetDashboard",
+    "RelativePath": "api/Holding/dashboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.HoldingController",
+    "Method": "Get",
+    "RelativePath": "api/Holding/holdings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.TransactionController",
+    "Method": "GetAllTransactions",
+    "RelativePath": "api/Transaction/transactions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CriptoBank.API.Controllers.WalletController",
     "Method": "Buy",
     "RelativePath": "api/Wallet/buy",

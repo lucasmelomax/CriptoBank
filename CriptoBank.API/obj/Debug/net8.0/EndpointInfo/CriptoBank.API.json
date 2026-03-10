@@ -165,6 +165,42 @@
         }
       }
     },
+    "/api/Holding/holdings": {
+      "get": {
+        "tags": [
+          "Holding"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Holding/dashboard": {
+      "get": {
+        "tags": [
+          "Holding"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Transaction/transactions": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Wallet/buy": {
       "post": {
         "tags": [

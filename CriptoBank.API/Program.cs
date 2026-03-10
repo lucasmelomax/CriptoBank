@@ -3,7 +3,6 @@ using CriptoBank.Application.Repositories.Token;
 using CriptoBank.Application.Repositories;
 using CriptoBank.Infrastructure.Context;
 using CriptoBank.Infrastructure.Repositories;
-using CriptoBank.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using CriptoBank.Application.Interfaces.Token;
 using CriptoBank.Application.AutoMapperProfile;
@@ -15,6 +14,9 @@ using CriptoBank.Application.Services;
 using CriptoBank.API.Middlewares;
 using CriptoBank.Application.Interfaces.BuyService;
 using CriptoBank.Domain.Repositories;
+using CriptoBank.Infrastructure.Repositories.Security;
+using CriptoBank.Application.Interfaces.HoldingService;
+using CriptoBank.Application.Interfaces.TransactionService;
 
 namespace CriptoBank.API
 {
@@ -41,9 +43,11 @@ namespace CriptoBank.API
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IHoldingRepository, HoldingRepository>();
+            builder.Services.AddScoped<IHoldingService, HoldingService>();
             builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
             builder.Services.AddScoped<ICryptoTransactionService, CryptoTransactionService>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ICryptoRepository, CryptoRepository>();
 
             builder.Services.AddAutoMapper(typeof(UserProfile));

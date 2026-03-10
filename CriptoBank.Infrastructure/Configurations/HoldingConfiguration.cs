@@ -17,10 +17,10 @@ public class HoldingConfiguration : IEntityTypeConfiguration<Holding>
             .IsRequired();
 
         builder.Property(x => x.AveragePrice)
-            .HasColumnType("decimal(18,2)")
+            .HasColumnType("decimal(18,8)")
             .IsRequired();
 
         builder.HasIndex(x => new { x.PortfolioId, x.CryptoId })
-            .IsUnique(); 
+            .IsUnique();
     }
 }
