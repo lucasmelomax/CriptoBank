@@ -36,8 +36,9 @@ namespace CriptoBank.Application.Handlers.Holdings.Queries
 
             var holdings = await _holdingService.GetHoldingsUser(userId);
 
-            var ids = string.Join(",", holdings.Select(h => h.Crypto.ExternalId));
-            var prices = await _coinService.GetCoinDataAsync(ids);
+            var externalIds = holdings.Select(h => h.Crypto.ExternalId).Distinct().ToList();
+
+            var prices = await _coinService.GetCoinsDataAsync(externalIds);
 
             var listaDto = holdings.Select(item => new HoldingDTO
             {

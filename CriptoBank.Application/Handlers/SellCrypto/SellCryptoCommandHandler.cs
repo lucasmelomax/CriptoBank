@@ -8,17 +8,17 @@ using CriptoBank.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace CriptoBank.Application.Handlers.BuyCrypto.Commands
+namespace CriptoBank.Application.Handlers.SellCrypto
 {
-    public class BuyCryptoCommandHandler : IRequestHandler<BuyCryptoCommand, bool>
+    public class SellCryptoCommandHandler : IRequestHandler<SellCryptoCommand, bool>
     {
         private readonly ICryptoTransactionService _transactionService;
         private readonly IUnitOfWork _uow;
-        private readonly ICoinService _coinGecko; 
+        private readonly ICoinService _coinGecko;
         private readonly ICryptoRepository _criptoRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BuyCryptoCommandHandler(ICryptoTransactionService transactionService, IUnitOfWork uow, ICoinService coinGecko, ICryptoRepository criptoRepository, IHttpContextAccessor httpContextAccessor)
+        public SellCryptoCommandHandler(ICryptoTransactionService transactionService, IUnitOfWork uow, ICoinService coinGecko, ICryptoRepository criptoRepository, IHttpContextAccessor httpContextAccessor)
         {
             _transactionService = transactionService;
             _uow = uow;
@@ -27,7 +27,7 @@ namespace CriptoBank.Application.Handlers.BuyCrypto.Commands
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> Handle(BuyCryptoCommand request, CancellationToken ct)
+        public async Task<bool> Handle(SellCryptoCommand request, CancellationToken ct)
         {
 
             var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -44,10 +44,10 @@ namespace CriptoBank.Application.Handlers.BuyCrypto.Commands
 
             var unitPrice = coinData.Current_Price;
 
-            await _transactionService.BuyAsync(
+            await _transactionService.SellAsync(
                 userId,
                 request.cryptoName,
-                TransactionType.Buy,
+                TransactionType.Sell,
                 request.Quantity,
                 unitPrice,
                 ct);
@@ -57,5 +57,4 @@ namespace CriptoBank.Application.Handlers.BuyCrypto.Commands
             return true;
         }
     }
-    
 }

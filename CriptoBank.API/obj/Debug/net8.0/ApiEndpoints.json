@@ -132,5 +132,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Sell",
+    "RelativePath": "api/Wallet/sell",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CriptoBank.Application.Handlers.SellCrypto.SellCryptoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

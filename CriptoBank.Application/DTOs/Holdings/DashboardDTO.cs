@@ -4,14 +4,25 @@ namespace CriptoBank.Application.DTOs.Holdings
 {
     public class DashboardDTO
     {
-        public decimal TotalBalance { get; set; }
-        public decimal TotalInvested { get; set; }
+        private decimal _totalBalance;
+        public decimal TotalBalance
+        {
+            get => Math.Round(_totalBalance, 2);
+            set => _totalBalance = value;
+        }
 
-        public decimal TotalProfitLoss => TotalBalance - TotalInvested;
+        private decimal _totalInvested;
+        public decimal TotalInvested
+        {
+            get => Math.Round(_totalInvested, 2);
+            set => _totalInvested = value;
+        }
+        public decimal TotalProfitLoss => Math.Round(TotalBalance - TotalInvested, 2);
 
         public decimal TotalProfitLossPercentage => TotalInvested > 0
-            ? (TotalProfitLoss / TotalInvested) * 100
+            ? Math.Round((TotalProfitLoss / TotalInvested) * 100, 2)
             : 0;
+
         public bool IsInProfit => TotalProfitLoss >= 0;
 
     }

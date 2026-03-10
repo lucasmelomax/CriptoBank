@@ -1,5 +1,6 @@
 ﻿
 using CriptoBank.Application.Handlers.BuyCrypto.Commands;
+using CriptoBank.Application.Handlers.SellCrypto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,17 @@ namespace CriptoBank.API.Controllers
             if (!result) return BadRequest("Não foi possível processar a compra.");
 
             return Ok("Compra realizada com sucesso!");
+        }
+
+        [HttpPost("sell")]
+        public async Task<IActionResult> Sell([FromBody] SellCryptoCommand command)
+        {
+
+            var result = await _mediator.Send(command);
+
+            if (!result) return BadRequest("Não foi possível processar a venda.");
+
+            return Ok("Venda realizada com sucesso!");
         }
     }
 }

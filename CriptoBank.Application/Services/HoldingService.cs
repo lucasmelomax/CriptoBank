@@ -25,11 +25,19 @@ namespace CriptoBank.Application.Services
             var holdings = await _holdingRepository.GetAllHoldingsByPortfolio(userId);
             var dashboard = new DashboardDTO();
 
-            foreach(var item in holdings)
-            {
-                var coinData = await _coinService.GetCoinDataAsync(item.Crypto.ExternalId);
+            var externalIds = holdings
+                .Select(h => h.Crypto.ExternalId)
+                .Distinct()
+                .ToList();
 
-                var currentPrice = coinData.FirstOrDefault()?.Current_Price ?? 0;
+            var allCoinsData = await _coinService.GetCoinsDataAsync(externalIds);
+
+            foreach (var item in holdings)
+            {
+                var coinInfo = allCoinsData.FirstOrDefault(c =>
+                    c.Id.Equals(item.Crypto.ExternalId, StringComparison.OrdinalIgnoreCase));
+
+                var currentPrice = coinInfo?.Current_Price ?? item.AveragePrice;
 
                 dashboard.TotalInvested += (item.Quantity * item.AveragePrice);
                 dashboard.TotalBalance += (item.Quantity * currentPrice);

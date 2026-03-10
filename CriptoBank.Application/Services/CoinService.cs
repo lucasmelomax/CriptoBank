@@ -6,6 +6,7 @@ using CriptoBank.Application.DTOs.Crypto;
 using CriptoBank.Application.Interfaces.CoinService;
 using CriptoBank.Domain.Models;
 using CriptoBank.Domain.Repositories;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CriptoBank.Application.Services;
 
@@ -13,11 +14,13 @@ public class CoinService : ICoinService
 {
     private readonly HttpClient _http;
     private readonly ICryptoRepository _cryptoRepository;
+    private readonly IMemoryCache _cache;
 
-    public CoinService(HttpClient http, ICryptoRepository cryptoRepository)
+    public CoinService(HttpClient http, ICryptoRepository cryptoRepository, IMemoryCache cache)
     {
         _cryptoRepository = cryptoRepository;
         _http = http;
+        _cache = cache;
 
         if (!_http.DefaultRequestHeaders.Contains("User-Agent"))
         {
@@ -40,24 +43,58 @@ public class CoinService : ICoinService
         }
     }
 
-    public async Task<List<CoinMarketDto?>> GetCoinDataAsync(string externalId)
+    public async Task<List<CoinMarketDto>> GetCoinsDataAsync(List<string> externalIds)
     {
-        var url = $"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={externalId}";
+        if (externalIds == null || !externalIds.Any()) return new List<CoinMarketDto>();
 
-        var response = await _http.GetAsync(url);
+        var result = new List<CoinMarketDto>();
+        var idsToFetch = new List<string>();
 
-        if (!response.IsSuccessStatusCode) return new List<CoinMarketDto>();
-
-        var content = await response.Content.ReadAsStringAsync();
-
-        var coins = JsonSerializer.Deserialize<List<CoinMarketDto>>(content, new JsonSerializerOptions
+        foreach (var id in externalIds)
         {
-            PropertyNameCaseInsensitive = true
-        });
+            if (_cache.TryGetValue($"Price_{id.ToLower()}", out CoinMarketDto cachedCoin))
+            {
+                result.Add(cachedCoin!);
+            }
+            else
+            {
+                idsToFetch.Add(id.ToLower());
+            }
+        }
 
-        return coins ?? new List<CoinMarketDto>(); 
+        if (idsToFetch.Any())
+        {
+            var idsQuery = string.Join(",", idsToFetch);
+            var url = $"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={idsQuery}";
+
+            var response = await _http.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var coinsFromApi = JsonSerializer.Deserialize<List<CoinMarketDto>>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? new List<CoinMarketDto>();
+
+                foreach (var coin in coinsFromApi)
+                {
+                    _cache.Set($"Price_{coin.Id.ToLower()}", coin, TimeSpan.FromMinutes(1));
+
+                    if (!result.Any(r => r.Id == coin.Id))
+                        result.Add(coin);
+                }
+            }
+        }
+
+        return result;
     }
 
+    public async Task<CoinMarketDto?> GetCoinDataAsync(string externalId)
+    {
+        var list = await GetCoinsDataAsync(new List<string> { externalId });
+        return list.FirstOrDefault();
+    }
     public async Task SyncCryptosAsync()
     {
         var externalCoins = await GetAllCoinsAsync();

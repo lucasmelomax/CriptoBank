@@ -131,3 +131,4 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\bin\Debug\net8.0\System.Id
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\obj\Debug\net8.0\CriptoBank.API.sourcelink.json
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\obj\Debug\net8.0\CriptoBank.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.API\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll

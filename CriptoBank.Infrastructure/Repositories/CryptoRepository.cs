@@ -37,5 +37,13 @@ namespace CriptoBank.Infrastructure.Repositories
         {
             await _context.Cryptos.AddAsync(crypto);
         }
+
+        public async Task<Crypto> GetByNameAsync(string name)
+        {
+            var nome = await _context.Cryptos
+                .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+
+            return nome;
+        }
     }
 }

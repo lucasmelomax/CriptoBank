@@ -231,6 +231,37 @@
           }
         }
       }
+    },
+    "/api/Wallet/sell": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellCryptoCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellCryptoCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellCryptoCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -238,9 +269,9 @@
       "BuyCryptoCommand": {
         "type": "object",
         "properties": {
-          "cryptoId": {
+          "cryptoName": {
             "type": "string",
-            "format": "uuid"
+            "nullable": true
           },
           "quantity": {
             "type": "number",
@@ -308,6 +339,20 @@
           "password": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SellCryptoCommand": {
+        "type": "object",
+        "properties": {
+          "cryptoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
