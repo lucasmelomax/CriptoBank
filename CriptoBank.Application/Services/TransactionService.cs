@@ -9,13 +9,11 @@ namespace CriptoBank.Application.Services
     public class TransactionService : ITransactionService
     {
         private readonly IPortfolioRepository _portfolioRepository;
-        private readonly IHoldingRepository _holdingRepository;
         private readonly ITransactionRepository _transactionRepository;
 
-        public TransactionService(IPortfolioRepository portfolioRepository, IHoldingRepository holdingRepository, ITransactionRepository transactionRepository)
+        public TransactionService(IPortfolioRepository portfolioRepository, ITransactionRepository transactionRepository)
         {
             _portfolioRepository = portfolioRepository;
-            _holdingRepository = holdingRepository;
             _transactionRepository = transactionRepository;
         }
 

@@ -17,11 +17,12 @@ using CriptoBank.Domain.Repositories;
 using CriptoBank.Infrastructure.Repositories.Security;
 using CriptoBank.Application.Interfaces.HoldingService;
 using CriptoBank.Application.Interfaces.TransactionService;
+using CriptoBank.Application.Interfaces.ReportService;
 
 namespace CriptoBank.API
 {
     public class Program
-    {
+    {        
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,8 @@ namespace CriptoBank.API
             builder.Services.AddScoped<IAuthService, AuthService>();
 
             builder.Services.AddHttpClient<ICoinService, CoinService>();
+            builder.Services.AddScoped<IReportService, ReportService>();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IHoldingRepository, HoldingRepository>();

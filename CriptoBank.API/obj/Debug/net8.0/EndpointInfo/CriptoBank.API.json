@@ -201,6 +201,18 @@
         }
       }
     },
+    "/api/Transaction/report": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Wallet/buy": {
       "post": {
         "tags": [

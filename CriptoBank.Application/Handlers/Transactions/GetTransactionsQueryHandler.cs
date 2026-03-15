@@ -1,31 +1,25 @@
 ﻿
-using System.Security.Claims;
 using CriptoBank.Application.Interfaces.TransactionService;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using CriptoBank.Application.DTOs.Transaction;
+using CriptoBank.Application.Interfaces.Token;
 
 namespace CriptoBank.Application.Handlers.Transactions
 {
     public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery, IEnumerable<TransactionDTO>>
     {
         private readonly ITransactionService _transactionService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetTransactionsQueryHandler(ITransactionService transactionService, IHttpContextAccessor httpContextAccessor)
+        public GetTransactionsQueryHandler(ITransactionService transactionService, ICurrentUserService currentUserService)
         {
             _transactionService = transactionService;
-            _httpContextAccessor = httpContextAccessor;
+            _currentUserService = currentUserService;
         }
 
         public async Task<IEnumerable<TransactionDTO>> Handle(GetTransactionsQuery request, CancellationToken ct)
         {
-            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userIdClaim))
-                throw new UnauthorizedAccessException("Usuário não autenticado.");
-
-            var userId = Guid.Parse(userIdClaim);
+            var userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException("Usuário não identificado.");
 
             var transactions = await _transactionService.GetTransactions(userId);
 

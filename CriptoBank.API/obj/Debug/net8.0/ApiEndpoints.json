@@ -109,6 +109,16 @@
   },
   {
     "ContainingType": "CriptoBank.API.Controllers.TransactionController",
+    "Method": "DownloadReport",
+    "RelativePath": "api/Transaction/report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.TransactionController",
     "Method": "GetAllTransactions",
     "RelativePath": "api/Transaction/transactions",
     "HttpMethod": "GET",

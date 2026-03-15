@@ -1,54 +1,31 @@
 ﻿
-using System.Security.Claims;
-using AutoMapper;
 using CriptoBank.Application.DTOs.Holdings;
-using CriptoBank.Application.Interfaces.CoinService;
 using CriptoBank.Application.Interfaces.HoldingService;
+using CriptoBank.Application.Interfaces.Token;
 using MediatR;
-using Microsoft.AspNetCore.Http;
+
 
 namespace CriptoBank.Application.Handlers.Holdings.Queries
 {
     public class GetAllHoldingsQueryHandler : IRequestHandler<GetAllHoldingsQuery, IEnumerable<HoldingDTO>>
     {
         private readonly IHoldingService _holdingService;
-        private readonly ICoinService _coinService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetAllHoldingsQueryHandler(
-            IHoldingService holdingService,
-            ICoinService coinService,
-            IHttpContextAccessor httpContextAccessor)
+        public GetAllHoldingsQueryHandler(IHoldingService holdingService, ICurrentUserService currentUserService)
         {
             _holdingService = holdingService;
-            _coinService = coinService;
-            _httpContextAccessor = httpContextAccessor;
+            _currentUserService = currentUserService;
         }
 
         public async Task<IEnumerable<HoldingDTO>> Handle(GetAllHoldingsQuery request, CancellationToken ct)
         {
-            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userIdClaim))
-                throw new UnauthorizedAccessException("Usuário não autenticado.");
+            var userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException("Usuário não identificado.");
 
-            var userId = Guid.Parse(userIdClaim);
+            var result = await _holdingService.GetHoldingsWithPrices(userId);
 
-            var holdings = await _holdingService.GetHoldingsUser(userId);
-
-            var externalIds = holdings.Select(h => h.Crypto.ExternalId).Distinct().ToList();
-
-            var prices = await _coinService.GetCoinsDataAsync(externalIds);
-
-            var listaDto = holdings.Select(item => new HoldingDTO
-            {
-                Symbol = item.Crypto.Symbol,
-                Quantity = item.Quantity,
-                AveragePrice = item.AveragePrice,
-                CurrentPrice = prices?.FirstOrDefault(p => p.Id == item.Crypto.ExternalId)?.Current_Price ?? 0
-            });
-
-            return listaDto;
+            return result;
         }
     }
 }

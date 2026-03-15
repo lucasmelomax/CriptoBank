@@ -26,5 +26,15 @@ namespace CriptoBank.API.Controllers
 
             return Ok(transactions);
         }
+
+        [HttpGet("report")]
+        public async Task<IActionResult> DownloadReport()
+        {
+            var pdfBytes = await _mediator.Send(new GetTransactionReportQuerie());
+
+            var fileName = $"Extrato_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+
+            return File(pdfBytes, "application/pdf", fileName);
+        }
     }
 }

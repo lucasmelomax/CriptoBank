@@ -46,17 +46,23 @@ namespace CriptoBank.Application.Services
             return dashboard;
         }
 
-        public async Task<IEnumerable<Holding>> GetHoldingsUser(Guid userId)
+        public async Task<IEnumerable<HoldingDTO>> GetHoldingsWithPrices(Guid userId)
         {
-
             var holdings = await _holdingRepository.GetAllHoldingsByPortfolio(userId);
 
             if (holdings == null || !holdings.Any())
-            {
-                throw new KeyNotFoundException("Nenhum investimento encontrado para este portfólio.");
-            }
+                return Enumerable.Empty<HoldingDTO>();
 
-            return holdings;
+            var externalIds = holdings.Select(h => h.Crypto.ExternalId).Distinct().ToList();
+            var prices = await _coinService.GetCoinsDataAsync(externalIds);
+
+            return holdings.Select(item => new HoldingDTO
+            {
+                Symbol = item.Crypto.Symbol,
+                Quantity = item.Quantity,
+                AveragePrice = item.AveragePrice,
+                CurrentPrice = prices?.FirstOrDefault(p => p.Id == item.Crypto.ExternalId)?.Current_Price ?? 0
+            });
         }
     }
 }
