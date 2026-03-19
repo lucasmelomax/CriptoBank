@@ -18,7 +18,8 @@ namespace CriptoBank.Infrastructure.Repositories
         public async Task<Portfolio?> GetByUserIdAsync(Guid userId)
         {
             return await _context.Portfolios
-                .FirstOrDefaultAsync(p => p.UserId == userId);
+        .Include(p => p.Holdings) 
+        .FirstOrDefaultAsync(p => p.UserId == userId);
         }
 
         public async Task<Portfolio?> GetWithHoldingsAsync(Guid userId)

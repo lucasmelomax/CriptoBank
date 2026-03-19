@@ -93,7 +93,9 @@ public class CoinService : ICoinService
     public async Task<CoinMarketDto?> GetCoinDataAsync(string externalId)
     {
         var list = await GetCoinsDataAsync(new List<string> { externalId });
-        return list.FirstOrDefault();
+        var primeiro = list.FirstOrDefault();
+        if(primeiro is null) throw new KeyNotFoundException($"Erro ao achar moeda.");
+        return primeiro;
     }
     public async Task SyncCryptosAsync()
     {

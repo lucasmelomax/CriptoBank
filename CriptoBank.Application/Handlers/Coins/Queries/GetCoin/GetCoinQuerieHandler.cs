@@ -15,11 +15,11 @@ namespace CriptoBank.Application.Handlers.Coins.Queries.GetCoin
         }
         public async Task<CoinMarketDto> Handle(GetCoinQuerie request, CancellationToken cancellationToken)
         {
-            var ids = new List<string> { request.nome };
+            var ids =request.nome ;
 
-            var coins = await _cryptoService.GetCoinsDataAsync(ids);
+            var coins = await _cryptoService.GetCoinDataAsync(ids);
 
-            return coins.FirstOrDefault() ?? new CoinMarketDto();
+            return coins ?? new CoinMarketDto();
         }
     }
 }

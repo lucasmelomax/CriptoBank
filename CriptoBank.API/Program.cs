@@ -18,6 +18,7 @@ using CriptoBank.Infrastructure.Repositories.Security;
 using CriptoBank.Application.Interfaces.HoldingService;
 using CriptoBank.Application.Interfaces.TransactionService;
 using CriptoBank.Application.Interfaces.ReportService;
+using MassTransit;
 
 namespace CriptoBank.API
 {
@@ -74,6 +75,14 @@ namespace CriptoBank.API
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/");
+                });
+            });
 
 
             builder.Services.AddDbContext<CriptoDbContext>(options =>

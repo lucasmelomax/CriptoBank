@@ -1,7 +1,10 @@
-﻿using CriptoBank.Application.Handlers.Transactions;
+﻿using CriptoBank.Application.DTOs.Message;
+using CriptoBank.Application.Handlers.Transactions;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using CriptoBank.Application.Interfaces.Token;
 
 namespace CriptoBank.API.Controllers
 {
@@ -12,10 +15,12 @@ namespace CriptoBank.API.Controllers
     {
 
         private readonly IMediator _mediator;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public TransactionController(IMediator mediator)
+        public TransactionController(IMediator mediator, IPublishEndpoint publishEndpoint)
         {
             _mediator = mediator;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet("transactions")]
@@ -28,13 +33,27 @@ namespace CriptoBank.API.Controllers
         }
 
         [HttpGet("report")]
-        public async Task<IActionResult> DownloadReport()
+        public async Task<IActionResult> DownloadReport([FromServices] ICurrentUserService userContext)
         {
-            var pdfBytes = await _mediator.Send(new GetTransactionReportQuerie());
+            await _publishEndpoint.Publish(new GenerateReportMessage
+            {
+                UserId = (Guid)userContext.UserId,
+                UserEmail = userContext.Email
+            });
 
-            var fileName = $"Extrato_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+            return Accepted(new { message = "Relatorio em processamento. Verifique a pasta de destino." });
+        }
 
-            return File(pdfBytes, "application/pdf", fileName);
+        [HttpPost("send-via-email")]
+        public async Task<IActionResult> SendViaEmail([FromServices] ICurrentUserService userContext)
+        {
+            await _publishEndpoint.Publish(new EmailGenerateReportMessage
+            {
+                UserId = (Guid)userContext.UserId,
+                UserEmail = userContext.Email
+            });
+
+            return Accepted(new { message = $"Processamento iniciado para o e-mail {userContext.Email}!" });
         }
     }
 }

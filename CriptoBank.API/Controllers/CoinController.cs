@@ -32,6 +32,8 @@ namespace CriptoBank.API.Controllers
         public async Task<ActionResult<List<CoinMarketDto>>> GetCoin(string nome, CancellationToken ct = default)
         {
             var result = await _mediator.Send(new GetCoinQuerie(nome), ct);
+            if (result == null ) return NotFound($"Nenhuma informação encontrada para a moeda: {nome}");
+
             return Ok(result);
         }
 

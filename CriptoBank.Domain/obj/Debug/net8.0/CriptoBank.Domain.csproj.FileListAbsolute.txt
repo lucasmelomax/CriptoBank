@@ -5,8 +5,8 @@ C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\Cripto
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.AssemblyInfoInputs.cache
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.AssemblyInfo.cs
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.csproj.CoreCompileInputs.cache
+C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.sourcelink.json
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\refint\CriptoBank.Domain.dll
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.pdb
 C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\ref\CriptoBank.Domain.dll
-C:\Users\lucas\source\repos\CriptoBank\CriptoBank.Domain\obj\Debug\net8.0\CriptoBank.Domain.sourcelink.json

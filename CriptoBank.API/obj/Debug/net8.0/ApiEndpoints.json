@@ -119,6 +119,16 @@
   },
   {
     "ContainingType": "CriptoBank.API.Controllers.TransactionController",
+    "Method": "SendViaEmail",
+    "RelativePath": "api/Transaction/send-via-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.TransactionController",
     "Method": "GetAllTransactions",
     "RelativePath": "api/Transaction/transactions",
     "HttpMethod": "GET",
