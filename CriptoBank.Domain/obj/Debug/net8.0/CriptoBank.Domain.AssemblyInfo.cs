@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CriptoBank.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f4d0eea48b624d450b3127f78944aa807e4bb0a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fd25a92bd5b4ecba8d60b970bcac09a3434ab6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("CriptoBank.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CriptoBank.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

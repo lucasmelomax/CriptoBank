@@ -30,7 +30,7 @@ public class GenerateAndSendEmailReportConsumer : IConsumer<EmailGenerateReportM
         if (portfolio == null) throw new Exception("Usuário não possui um portfólio configurado.");
 
         var transactions = await _transactionRepository.GetByPortfolioIdAsync(portfolio.Id);
-
+        
         var transactionsDto = transactions.Select(t => new TransactionReportDTO(
             t.CreatedAt,
             t.Type.ToString(),
