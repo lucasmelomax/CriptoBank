@@ -77,3 +77,7 @@ artifacts/
 # ==================================
 .idea/
 *.iml
+[Bb]in/
+[Oo]bj/
+*.user
+.vs/
