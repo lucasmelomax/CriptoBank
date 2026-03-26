@@ -19,7 +19,7 @@ namespace CriptoBank.Domain.Models
         public decimal UnitPrice { get; private set; }
 
         public decimal TotalValue { get; private set; }
-
+        
         public DateTime TransactionDate { get; private set; }
 
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
@@ -41,5 +41,6 @@ namespace CriptoBank.Domain.Models
             TotalValue = quantity * unitPrice;
             TransactionDate = DateTime.UtcNow;
         }
+           
     }
 }

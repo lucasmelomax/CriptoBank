@@ -15,6 +15,8 @@ namespace CriptoBank.Infrastructure.Context
         public DbSet<Crypto> Cryptos { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Holding> Holdings { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<WalletHistory> WalletHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

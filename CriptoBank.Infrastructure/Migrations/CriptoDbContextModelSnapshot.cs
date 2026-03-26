@@ -177,6 +177,55 @@ namespace CriptoBank.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("CriptoBank.Domain.Models.Wallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Balance")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Wallets", (string)null);
+                });
+
+            modelBuilder.Entity("CriptoBank.Domain.Models.WalletHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletHistories", (string)null);
+                });
+
             modelBuilder.Entity("CriptoBank.Domain.Models.Holding", b =>
                 {
                     b.HasOne("CriptoBank.Domain.Models.Crypto", "Crypto")
@@ -224,6 +273,26 @@ namespace CriptoBank.Infrastructure.Migrations
                     b.Navigation("Crypto");
 
                     b.Navigation("Portfolio");
+                });
+
+            modelBuilder.Entity("CriptoBank.Domain.Models.Wallet", b =>
+                {
+                    b.HasOne("CriptoBank.Domain.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("CriptoBank.Domain.Models.Wallet", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CriptoBank.Domain.Models.WalletHistory", b =>
+                {
+                    b.HasOne("CriptoBank.Domain.Models.Wallet", null)
+                        .WithMany()
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CriptoBank.Domain.Models.Crypto", b =>

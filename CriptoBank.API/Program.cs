@@ -19,6 +19,7 @@ using CriptoBank.Application.Interfaces.HoldingService;
 using CriptoBank.Application.Interfaces.TransactionService;
 using CriptoBank.Application.Interfaces.ReportService;
 using MassTransit;
+using Microsoft.OpenApi.Models;
 
 namespace CriptoBank.API
 {
@@ -33,7 +34,39 @@ namespace CriptoBank.API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+              c.SwaggerDoc("v1", new OpenApiInfo { Title = "CriptoBank API", Version = "v1" });
+
+              c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+              {
+                 Description = @"JWT Authorization header usando o esquema Bearer. 
+                              Entre com 'Bearer' [espaço] e então seu token no campo abaixo.
+                              Exemplo: 'Bearer 12345abcdef'",
+                 Name = "Authorization",
+                 In = ParameterLocation.Header,
+                 Type = SecuritySchemeType.ApiKey,
+                 Scheme = "Bearer"
+              });
+
+              c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                }
+            });
+            });
             builder.Services.AddMemoryCache();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -47,6 +80,8 @@ namespace CriptoBank.API
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.AddHttpContextAccessor();
 
+            builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+            builder.Services.AddScoped<IWalletHistoryRepository, WalletHistoryRepository>();
             builder.Services.AddScoped<IHoldingRepository, HoldingRepository>();
             builder.Services.AddScoped<IHoldingService, HoldingService>();
             builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();

@@ -155,6 +155,58 @@
   },
   {
     "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Deposito",
+    "RelativePath": "api/Wallet/deposito",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CriptoBank.Application.Handlers.Wallet.Commands.Deposito.AdicionarSaldoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Historico",
+    "RelativePath": "api/Wallet/historico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Saldo",
+    "RelativePath": "api/Wallet/saldo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
+    "Method": "Saque",
+    "RelativePath": "api/Wallet/saque",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CriptoBank.Application.Handlers.Wallet.Commands.Saque.SaqueCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CriptoBank.API.Controllers.WalletController",
     "Method": "Sell",
     "RelativePath": "api/Wallet/sell",
     "HttpMethod": "POST",
