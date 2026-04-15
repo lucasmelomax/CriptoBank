@@ -18,76 +18,49 @@ O **CriptoBank** é uma aplicação robusta de simulação de transações finan
 Antes de rodar o projeto, você deve configurar a conexão com o banco de dados:
 
 1. **Docker:** Verifique o usuário e senha no arquivo `docker-compose.yml`.
-2. **appsettings.json:** Na camada `CriptoBank.API` e `CriptoBank.Worker`, ajuste a `ConnectionStrings` para:
-   ```json
-   "ConnectionStrings": {
-     "DefaultConnection": "Host=localhost;Port=5432;Database=CriptoBankDB;Username=admin;Password=yourpassword"
-   }
-   Nota: Se você alterou a senha no Docker, deve alterar aqui também.
-   ```
 
-## 🛠️ Como Executar
+## 🛠️ Como Rodar o Projeto
 
-Siga o passo a passo abaixo para subir todo o ambiente (**Infraestrutura + Aplicação**):
+Siga o passo a passo abaixo para subir todo o ambiente:
 
 ---
 
-### 🐳 1. Subir a Infraestrutura (Docker)
+### 🐳 1. Pré-requisitos
 
-O projeto utiliza **Docker** para gerenciar o banco de dados e o sistema de mensageria.
+Certifique-se de ter instalado:
 
-Na raiz do projeto, execute:
+Docker Desktop (que já inclui o Docker Compose).
 
-```bash
-docker-compose up -d
-```
-
-Isso irá subir os containers do:
-
-- **PostgreSQL** (banco de dados)
-- **RabbitMQ** (mensageria)
-
----
-
-### 🗄️ 2. Aplicar as Migrations (Banco de Dados)
-
-Com o PostgreSQL em execução, aplique as migrations para criar o esquema do banco:
-
-```bash
-dotnet ef database update --project CriptoBank.Infrastructure --startup-project CriptoBank.API
-```
-
----
+Git.
 
 ### 🚀 3. Rodar a Aplicação
 
-Agora inicie os dois serviços principais:
-
-#### ▶️ API
+Clone o Repositório
 
 ```bash
-dotnet run --project CriptoBank.API
+git clone https://github.com/seu-usuario/CriptoBank.git
+cd CriptoBank
+```
+
+Agora inicie o serviço :
+
+```bash
+docker-compose up --build -d
 ```
 
 - A API ficará disponível em:
 
   ```
-  http://localhost:5044
+  http://localhost:5000
   ```
 
 - Swagger:
 
   ```
-  http://localhost:5044/swagger
+  http://localhost:5000/swagger
   ```
 
 ---
-
-#### ⚙️ Worker
-
-```bash
-dotnet run --project CriptoBank.Worker
-```
 
 O Worker ficará responsável por:
 
@@ -100,15 +73,13 @@ O Worker ficará responsável por:
 ### ✅ Fluxo de Inicialização
 
 1. Subir containers com Docker
-2. Aplicar migrations no banco
-3. Iniciar a API
-4. Iniciar o Worker
+2. Iniciar o container
 
 ---
 
 # 📖 Como Usar o Sistema
 
-Após iniciar a API e o Worker, siga este fluxo básico no Swagger (`http://localhost:5044/swagger`) para simular a operação do banco:
+Após iniciar a API , siga este fluxo básico no Swagger (`http://localhost:5000/swagger`) para simular a operação do banco:
 
 ---
 
@@ -117,15 +88,12 @@ Após iniciar a API e o Worker, siga este fluxo básico no Swagger (`http://loca
 O sistema utiliza **Identity/JWT** para garantir a segurança das operações.
 
 - Acesse o endpoint:
-
   - `POST /api/Auth/register` → Crie sua conta
 
 - Em seguida:
-
   - `POST /api/Auth/login` → Faça login e obtenha seu token JWT
 
 - No Swagger:
-
   - Clique em **Authorize** (no topo da página)
   - Cole o token para liberar o acesso aos endpoints protegidos
 
@@ -136,12 +104,10 @@ O sistema utiliza **Identity/JWT** para garantir a segurança das operações.
 Antes de investir em criptomoedas, é necessário ter saldo em BRL:
 
 - Depositar saldo:
-
   - `POST /api/Wallet/deposito`
   - Exemplo de valor: `1000.00`
 
 - Consultar saldo:
-
   - `GET /api/Wallet/saldo`
 
 ---
@@ -151,15 +117,12 @@ Antes de investir em criptomoedas, é necessário ter saldo em BRL:
 Com saldo disponível, você pode realizar operações de compra e venda:
 
 - **Comprar criptomoeda:**
-
   - `POST /api/Wallet/buy`
   - Informe:
-
     - Nome da moeda (ex: `bitcoin`)
     - Valor em BRL
 
 - **Vender criptomoeda:**
-
   - `POST /api/Wallet/sell`
   - Informe:
     - Nome da moeda (ex: `bitcoin`)
@@ -170,11 +133,9 @@ Com saldo disponível, você pode realizar operações de compra e venda:
 ## 📊 4. Acompanhamento da Carteira
 
 - Ver seus ativos e desempenho:
-
   - `GET /api/Holding/holdings`
 
 - Histórico de transações:
-
   - `GET /api/Transaction/transactions`
 
 > ℹ️ Cada transação realizada publica um evento no **RabbitMQ**, que é processado pelo Worker para gerar o histórico de operações.
@@ -185,9 +146,10 @@ Com saldo disponível, você pode realizar operações de compra e venda:
 
 1. Criar conta
 2. Fazer login e obter token
-3. Depositar saldo em BRL
-4. Comprar/vender criptomoedas
-5. Acompanhar carteira e histórico
+3. Fazer Sync das moedas - POST "api/Coin/sync"
+4. Depositar saldo em BRL
+5. Comprar/vender criptomoedas
+6. Acompanhar carteira e histórico
 
 ---
 

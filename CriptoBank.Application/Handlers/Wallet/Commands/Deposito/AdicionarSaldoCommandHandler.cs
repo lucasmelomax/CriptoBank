@@ -43,7 +43,11 @@ namespace CriptoBank.Application.Handlers.Wallet.Commands.Deposito
             var wallet = await _walletRepository.GetById(userId.Value);
 
             if (wallet == null)
-                throw new InvalidOperationException("Carteira não encontrada ou saldo insuficiente.");
+            {
+                wallet = new Domain.Models.Wallet(userId.Value);
+                await _walletRepository.Add(wallet);
+            }
+                
 
             wallet.Deposit(request.saldo);
 

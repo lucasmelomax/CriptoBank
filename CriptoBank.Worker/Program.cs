@@ -27,16 +27,19 @@ builder.Services.AddScoped<IReportService, ReportService>();
 
 builder.Services.AddMassTransit(x =>
 {
-
     x.AddConsumer<GenerateReportConsumer>();
     x.AddConsumer<GenerateAndSendEmailReportConsumer>();
-    x.AddConsumer<SendEmailConsumer>(); 
+    x.AddConsumer<SendEmailConsumer>();
+
+    x.SetInMemorySagaRepositoryProvider();
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/");
-
-
+        cfg.Host("cripto_queue", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
         cfg.ConfigureEndpoints(context);
     });
 });

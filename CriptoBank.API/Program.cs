@@ -1,24 +1,25 @@
-
-using CriptoBank.Application.Repositories.Token;
+﻿
+using System;
+using System.Text;
+using CriptoBank.API.Middlewares;
+using CriptoBank.Application.AutoMapperProfile;
+using CriptoBank.Application.Interfaces.BuyService;
+using CriptoBank.Application.Interfaces.CoinService;
+using CriptoBank.Application.Interfaces.HoldingService;
+using CriptoBank.Application.Interfaces.ReportService;
+using CriptoBank.Application.Interfaces.Token;
+using CriptoBank.Application.Interfaces.TransactionService;
+using CriptoBank.Application.Interfaces.UnitOfWork;
 using CriptoBank.Application.Repositories;
+using CriptoBank.Application.Repositories.Token;
+using CriptoBank.Application.Services;
+using CriptoBank.Domain.Repositories;
 using CriptoBank.Infrastructure.Context;
 using CriptoBank.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using CriptoBank.Application.Interfaces.Token;
-using CriptoBank.Application.AutoMapperProfile;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using CriptoBank.Application.Interfaces.UnitOfWork;
-using CriptoBank.Application.Interfaces.CoinService;
-using CriptoBank.Application.Services;
-using CriptoBank.API.Middlewares;
-using CriptoBank.Application.Interfaces.BuyService;
-using CriptoBank.Domain.Repositories;
 using CriptoBank.Infrastructure.Repositories.Security;
-using CriptoBank.Application.Interfaces.HoldingService;
-using CriptoBank.Application.Interfaces.TransactionService;
-using CriptoBank.Application.Interfaces.ReportService;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CriptoBank.API
@@ -41,7 +42,7 @@ namespace CriptoBank.API
               c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
               {
                  Description = @"JWT Authorization header usando o esquema Bearer. 
-                              Entre com 'Bearer' [espa�o] e ent�o seu token no campo abaixo.
+                              Entre com 'Bearer' [espaço] e então seu token no campo abaixo.
                               Exemplo: 'Bearer 12345abcdef'",
                  Name = "Authorization",
                  In = ParameterLocation.Header,
@@ -113,9 +114,19 @@ namespace CriptoBank.API
 
             builder.Services.AddMassTransit(x =>
             {
+
+                x.SetInMemorySagaRepositoryProvider();
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host("localhost", "/");
+
+                    var rabbitHost = builder.Configuration["RabbitMQ:Host"] ?? "rabbitmq";
+
+                    cfg.Host(rabbitHost, "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
                 });
             });
 
@@ -141,6 +152,38 @@ namespace CriptoBank.API
 
             app.MapControllers();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                
+                var context = services.GetRequiredService<CriptoDbContext>();
+
+                int retries = 10; 
+                while (retries > 0)
+                {
+                    try
+                    {
+                        
+                        if (context.Database.GetPendingMigrations().Any())
+                        {
+                            context.Database.Migrate();
+                            Console.WriteLine("✅ Migrations aplicadas com sucesso!");
+                        }
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        retries--;
+                        if (retries == 0)
+                        {
+                            Console.WriteLine("❌ Erro fatal: Não foi possível conectar ao banco após várias tentativas.");
+                            throw;
+                        }
+                        Console.WriteLine("⏳ Banco de dados ainda não está pronto... tentando novamente em 5s.");
+                        Thread.Sleep(5000);
+                    }
+                }
+            }
             app.Run();
         }
     }

@@ -1,22 +1,45 @@
 services:
-  # Banco de Dados Postgres
-  database:
+  postgres:
     image: postgres:latest
     container_name: cripto_db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=SuaSenha.
-      - POSTGRES_DB=criptobank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: CriptoBankDB
     ports:
       - "5432:5432"
 
-  # Mensageria RabbitMQ
   rabbitmq:
     image: rabbitmq:3-management
     container_name: cripto_queue
     ports:
-      - "5672:5672"   
-      - "15672:15672" 
+      - "5672:5672"
+      - "15672:15672"
+
+  criptobank-api:
+    build:
+      context: .
+      target: final-api
+    container_name: criptobank-api
+    ports:
+      - "5000:8080"
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=CriptoBankDB;Username=postgres;Password=yourpassword
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  criptobank-worker:
+    build:
+      context: .
+      target: final-worker
+    container_name: criptobank-worker
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=CriptoBankDB;Username=postgres;Password=yourpassword
+    depends_on:
+      - postgres
+      - rabbitmq
+
+volumes:
+  postgres_data:
